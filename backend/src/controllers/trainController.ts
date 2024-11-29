@@ -72,6 +72,7 @@ export const updateTrain = async (
     res.status(400).json({ errors: errors.array() });
     return;
   }
+  console.log(1);
 
   const { id } = req.params; // Получаем ID поезда из URL
   const { number, route } = req.body; // Данные для обновления
@@ -92,6 +93,48 @@ export const updateTrain = async (
     await train.save();
 
     res.json(train); // Возвращаем обновленный объект
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteTrain = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  console.log(1);
+  if (!req.user) {
+    res.status(401).json({ message: "No user found in token" });
+    return;
+  }
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
+  const { id } = req.params; // Получаем ID поезда из URL
+  try {
+    // Ищем поезд по ID
+    console.log(1);
+    const train = await Train.findById(id);
+
+    if (!train) {
+      res.status(404).json({ message: "Поезд не найден" });
+      return;
+    }
+
+    console.log(2);
+
+    // Удаляем поезд
+    await train.deleteOne();
+
+    console.log(3);
+    // Возвращаем успешный ответ
+    res.json({ message: "success" });
+    return;
   } catch (error) {
     next(error);
   }

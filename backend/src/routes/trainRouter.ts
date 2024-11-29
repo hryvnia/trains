@@ -6,6 +6,7 @@ import {
   createTrain,
   getTrains,
   updateTrain,
+  deleteTrain,
 } from "../controllers/trainController";
 
 const router = express.Router();
@@ -13,5 +14,6 @@ const router = express.Router();
 router.get("", getTrains);
 router.post("", authMiddleware, createTrain);
 router.patch("/:id", authMiddleware, updateTrain);
+router.delete("/:id", authMiddleware, deleteTrain);
 
 export default router;
