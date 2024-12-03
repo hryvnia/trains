@@ -20,50 +20,21 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { apiClient } from "@/lib";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { api, apiClient } from "@/lib";
 
 import { Train } from "@/types";
 import { useParams, useRouter } from "next/navigation";
-import { fetchTrains } from "../page";
-
-const updateTrain = async (train: Train) => {
-  const { data } = await apiClient.patch<Train>(
-    `/api/trains/${train.id}`,
-    train
-  );
-  return data;
-};
 
 export default function Home() {
   const router = useRouter();
 
   const { train_id } = useParams<{ train_id: string }>();
 
-  const queryClient = useQueryClient();
-  const {
-    data: trains,
-    error,
-    isLoading,
-  } = useQuery<Train[], any>({
-    queryKey: ["trains"],
-    queryFn: fetchTrains,
-
-    enabled: queryClient.getQueryData(["trains"]) === undefined,
-    initialData: () => queryClient.getQueryData(["trains"]),
-  });
-
+  const { data: trains, isFetching } = api.useGetTrainsQuery({});
   //   const train = trains?.find((t) => t.id === train_id);
 
-  const mutation = useMutation({
-    mutationFn: updateTrain,
-    onSuccess: (newTrain) => {
-      queryClient.invalidateQueries({ queryKey: ["trains"] });
-    },
-    onError: (error) => {
-      console.error("Ошибка при создании поезда:", error);
-    },
-  });
+  const [createTrain, createTrainRes] = api.useCreateTrainMutation();
+  const [updateTrain, updateTrainRes] = api.useUpdateTrainMutation();
 
   const { register, formState, handleSubmit, reset } = useForm<Train>({});
 
@@ -75,9 +46,15 @@ export default function Home() {
   }, [trains, reset]);
 
   return (
+    <Modal opened onClose={() => {}}>
+      test
+    </Modal>
+  );
+
+  return (
     <div>
       <Container>
-        {isLoading ? (
+        {isFetching ? (
           <Center>
             <Loader />
           </Center>
@@ -85,7 +62,7 @@ export default function Home() {
           <form
             onSubmit={handleSubmit(async (data) => {
               try {
-                await mutation.mutateAsync(data);
+                await updateTrain(data);
               } catch (err) {}
             })}
           >

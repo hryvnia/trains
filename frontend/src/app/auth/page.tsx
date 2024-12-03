@@ -1,32 +1,32 @@
 "use client";
 
-import { Button, Container, Stack } from "@mantine/core";
+import { Box, Button, Center, Container, Flex, Stack } from "@mantine/core";
 import { useState } from "react";
 import { RegisterForm } from "./Register";
 import { LoginForm } from "./Login";
 
 export default function Home() {
-  const [register, setRegister] = useState(true);
+  const [register, setRegister] = useState(false);
 
   return (
-    <div>
-      <Container>
+    <Stack flex={1} justify="center">
+      <Container h="100%" w="100%" size="xs">
         {register ? (
-          <Stack maw={400} mx="auto">
+          <Stack gap="xs" w="100%">
             <RegisterForm />
             <Button variant="transparent" onClick={() => setRegister(false)}>
-              already have account?
+              У вас вже є акаунт?
             </Button>
           </Stack>
         ) : (
-          <Stack maw={400} mx="auto">
+          <Stack gap="xs" w="100%">
             <LoginForm />
-            <Button variant="transparent" onClick={() => setRegister(true)}>
-              don't have account?
+            <Button variant="subtle" onClick={() => setRegister(true)}>
+              Немає акаунту?
             </Button>
           </Stack>
         )}
       </Container>
-    </div>
+    </Stack>
   );
 }

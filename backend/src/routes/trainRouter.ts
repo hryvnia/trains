@@ -7,13 +7,17 @@ import {
   getTrains,
   updateTrain,
   deleteTrain,
+  parseUZ,
 } from "../controllers/trainController";
 
 const router = express.Router();
 
 router.get("", getTrains);
 router.post("", authMiddleware, createTrain);
+
 router.patch("/:id", authMiddleware, updateTrain);
 router.delete("/:id", authMiddleware, deleteTrain);
+
+router.get("/parse", parseUZ);
 
 export default router;

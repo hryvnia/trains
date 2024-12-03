@@ -1,4 +1,4 @@
-import { Button, Stack, TextInput } from "@mantine/core";
+import { Button, PasswordInput, Stack, TextInput } from "@mantine/core";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -41,14 +41,14 @@ export const RegisterForm = () => {
       })}
     >
       <Stack>
-        <TextInput label="email" {...register("email", { required: true })} />
+        <TextInput label="Email" {...register("email", { required: true })} />
         <TextInput
-          label="username"
+          label="Ім'я користувача"
           {...register("username", { required: true })}
         />
-        <TextInput label="password" {...register("password")} />
+        <PasswordInput label="Пароль" {...register("password")} />
         <Button type="submit" loading={formState.isSubmitting}>
-          register
+          Зареєструватися
         </Button>
       </Stack>
     </form>

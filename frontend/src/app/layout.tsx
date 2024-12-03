@@ -1,12 +1,16 @@
 import { Montserrat } from "next/font/google";
-import { ColorSchemeScript } from "@mantine/core";
+import { ColorSchemeScript, Flex } from "@mantine/core";
 import { Providers } from "@/providers";
 
 import type { Metadata } from "next";
 
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/charts/styles.css";
+import "dayjs/locale/uk";
+
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
+
 import { Layout } from "@/components";
 
 const montserrat = Montserrat({
@@ -31,7 +35,15 @@ export default function RootLayout({
       </head>
       <body className={montserrat.className}>
         <Providers>
-          <Layout>{children}</Layout>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+            }}
+          >
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

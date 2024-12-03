@@ -3,6 +3,8 @@ import { check, validationResult } from "express-validator";
 
 import Train from "../models/Train";
 import { AuthRequest } from "../middleware/auth";
+import axios, { isAxiosError } from "axios";
+import puppeteer from "puppeteer";
 
 export const getTrains = async (
   req: Request,
@@ -103,7 +105,6 @@ export const deleteTrain = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log(1);
   if (!req.user) {
     res.status(401).json({ message: "No user found in token" });
     return;
@@ -115,10 +116,8 @@ export const deleteTrain = async (
     return;
   }
 
-  const { id } = req.params; // Получаем ID поезда из URL
+  const { id } = req.params;
   try {
-    // Ищем поезд по ID
-    console.log(1);
     const train = await Train.findById(id);
 
     if (!train) {
@@ -126,15 +125,72 @@ export const deleteTrain = async (
       return;
     }
 
-    console.log(2);
-
-    // Удаляем поезд
     await train.deleteOne();
 
-    console.log(3);
-    // Возвращаем успешный ответ
     res.json({ message: "success" });
     return;
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const parseUZ = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const headers = {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    };
+
+    try {
+      const browser = await puppeteer.launch({
+        headless: false, // Установите false, чтобы видеть процесс (опционально)
+      });
+      const page = await browser.newPage();
+
+      // Перейдите на защищенную страницу
+      await page.goto("https://booking.uz.gov.ua/schedule", {
+        waitUntil: "networkidle2",
+      });
+
+      // Дождитесь загрузки страницы
+      console.log("Page loaded.");
+
+      // Получите cookies
+      const cookies = await page.cookies();
+      console.log("Cookies:", cookies);
+
+      // Получите заголовки запроса
+      const headers = await page.evaluate(() => {
+        return JSON.stringify({
+          "user-agent": navigator.userAgent,
+          "accept-language": navigator.language,
+        });
+      });
+
+      console.log("Headers:", JSON.parse(headers));
+
+      // const { data } = await axios.get(
+      //   "https://app.uz.gov.ua/api/station-boards/2204001",
+      //   {
+      //     headers: JSON.parse(headers),
+      //   }
+      // );
+
+      // console.log(data);
+
+      // Закройте браузер
+      await browser.close();
+    } catch (err) {
+      if (isAxiosError(err)) {
+        console.log(err.code, err.status);
+        console.log(err.response?.headers);
+      }
+    }
+    res.json({});
   } catch (error) {
     next(error);
   }

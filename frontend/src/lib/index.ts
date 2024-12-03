@@ -1,2 +1,5 @@
 import apiClient from "./apiClient";
-export { apiClient };
+import axiosBaseQuery from "./axiosBaseQuery";
+
+export { apiClient, axiosBaseQuery };
+export * from "./api";
