@@ -1,7 +1,6 @@
 import express from "express";
 
 import authRouter from "./routes/authRouter";
-import postRouter from "./routes/postRouter";
 import scheduleRouter from "./routes/scheduleRouter";
 import stationRouter from "./routes/stationRouter";
 import trainRouter from "./routes/trainRouter";
@@ -19,7 +18,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Укажи домен своего фронтенда
+  origin: "http://localhost:3000",
   optionsSuccessStatus: 200,
 };
 
@@ -27,7 +26,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
-app.use("/api/posts", postRouter);
 app.use("/api/trains", trainRouter);
 app.use("/api/stations", stationRouter);
 app.use("/api/schedules", scheduleRouter);

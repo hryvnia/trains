@@ -13,6 +13,7 @@ dayjs.extend(timezone);
 
 const tz = "Europe/Kyiv";
 
+// Отримання всіх розкладів
 export const getSchedules = async (
   req: Request,
   res: Response,
@@ -29,6 +30,7 @@ export const getSchedules = async (
   }
 };
 
+// Створення нового розкладу
 export const createSchedule = async (
   req: AuthRequest,
   res: Response,
@@ -42,7 +44,6 @@ export const createSchedule = async (
   const { train_id, station_id, arrivalTime, departureTime, platform } =
     req.body;
 
-  // Перевірка обов'язкових полів
   if (!train_id || !station_id || !platform) {
     res.status(400).json({
       message: "Missing required fields: train_id, station_id, or platform",
@@ -50,7 +51,6 @@ export const createSchedule = async (
     return;
   }
 
-  // Перевірка наявності хоча б одного з полів arrivalTime або departureTime
   if (!arrivalTime && !departureTime) {
     res.status(400).json({
       message: "Either 'arrivalTime' or 'departureTime' must be provided",
@@ -78,6 +78,7 @@ export const createSchedule = async (
   }
 };
 
+// Оновлення існуючого розкладу
 export const updateSchedule = async (
   req: AuthRequest,
   res: Response,
@@ -111,7 +112,6 @@ export const updateSchedule = async (
       return;
     }
 
-    // Перевірка: якщо оновлюється arrivalTime і departureTime одночасно на null
     if (
       arrivalTime === null &&
       departureTime === null &&
@@ -124,7 +124,6 @@ export const updateSchedule = async (
       return;
     }
 
-    // Оновлення полів, якщо вони передані
     if (train_id !== undefined) schedule.train_id = train_id;
     if (station_id !== undefined) schedule.station_id = station_id;
     if (arrivalTime !== undefined) schedule.arrivalTime = arrivalTime;
@@ -140,6 +139,7 @@ export const updateSchedule = async (
   }
 };
 
+// Видалення розкладу
 export const deleteSchedule = async (
   req: AuthRequest,
   res: Response,
@@ -175,6 +175,7 @@ export const deleteSchedule = async (
   }
 };
 
+// Отримання статистики розкладів за конкретну дату
 export const getScheduleStats = async (
   req: Request,
   res: Response,
