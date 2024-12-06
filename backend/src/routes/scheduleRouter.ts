@@ -13,11 +13,19 @@ import {
 
 const router = express.Router();
 
+// Маршрут для отримання всіх розкладів
 router.get("", authMiddleware, getSchedules);
+
+// Маршрут для створення нового розкладу
 router.post("", authMiddleware, createSchedule);
+
+// Маршрут для оновлення розкладу за його id
 router.patch("/:id", authMiddleware, updateSchedule);
+
+// Маршрут для видалення розкладу за його id
 router.delete("/:id", authMiddleware, deleteSchedule);
 
-router.get("/stats/:date", getScheduleStats);
+// Маршрут для отримання статистики розкладів за конкретну дату
+router.get("/stats/:date", authMiddleware, getScheduleStats);
 
 export default router;

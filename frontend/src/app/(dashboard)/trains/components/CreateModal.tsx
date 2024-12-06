@@ -1,6 +1,7 @@
 import { api, apiClient } from "@/lib";
 import { Train } from "@/types";
 import { Button, Modal, ModalProps, Stack, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FC, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -48,9 +49,17 @@ export const CreateModal: FC<
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
-            await (creating
+            const train = await (creating
               ? createTrain(data).unwrap()
               : updateTrain(data).unwrap());
+
+            notifications.show({
+              color: "green",
+              title: `${creating ? "Створення" : "Редагування"} потяга ${
+                train.number
+              }`,
+              message: `Дані збережено успішно`,
+            });
 
             reset();
             props.onClose();

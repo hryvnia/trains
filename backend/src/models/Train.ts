@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Схема для потяга
 const trainSchema = new mongoose.Schema(
   {
     number: { type: String, required: true },
@@ -8,6 +9,7 @@ const trainSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Перетворення об'єкта перед відправкою у JSON
 trainSchema.set("toJSON", {
   virtuals: true,
   transform: (doc, ret) => {
@@ -18,5 +20,6 @@ trainSchema.set("toJSON", {
   },
 });
 
+// Створення моделі потяга на основі її схеми
 const Train = mongoose.model("Train", trainSchema);
 export default Train;

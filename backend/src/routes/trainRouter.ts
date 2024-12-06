@@ -11,10 +11,16 @@ import {
 
 const router = express.Router();
 
+// Маршрут для отримання всіх поїздів
 router.get("", getTrains);
+
+// Маршрут для створення нового поїзда
 router.post("", authMiddleware, createTrain);
 
+// Маршрут для оновлення поїзда за його id
 router.patch("/:id", authMiddleware, updateTrain);
+
+// Маршрут для видалення поїзда за його id
 router.delete("/:id", authMiddleware, deleteTrain);
 
 export default router;

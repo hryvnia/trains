@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Chat from "../Chat";
-import { useForm } from "react-hook-form";
 import {
   ActionIcon,
   Box,
@@ -27,25 +24,12 @@ import { BarChart } from "@mantine/charts";
 import { DatePicker, DatePickerInput } from "@mantine/dates";
 import dayjs from "dayjs";
 
-export interface Post {
-  id: number;
-  title: string;
-  content: string;
-}
-
-export const fetchPosts = async () => {
-  const { data } = await apiClient.get<Post[]>("/api/posts");
-  return data;
-};
-
 export default function Home() {
   const [date, setDate] = useState<Date>(dayjs("2024-12-02").toDate());
 
   const { data, isFetching } = api.useGetSchedulesStatsQuery({
     date: dayjs(date).format("YYYY-MM-DD"),
   });
-
-  const { data: session } = useSession();
 
   return (
     <Box mih="100vh">

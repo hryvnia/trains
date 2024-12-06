@@ -17,6 +17,7 @@ dayjs.extend(timezone);
 
 const tz = "Europe/Kyiv";
 
+// Отримання всіх звітів для користувача або всіх звітів, якщо вказано параметр `all=true`
 export const getReports = async (
   req: AuthRequest,
   res: Response,
@@ -43,6 +44,7 @@ export const getReports = async (
   }
 };
 
+// Генерація звіту за заданими датами
 export const generateReport = async (
   req: AuthRequest,
   res: Response,
@@ -92,6 +94,7 @@ export const generateReport = async (
   }
 };
 
+// Видалення звіту
 export const deleteReport = async (
   req: AuthRequest,
   res: Response,
@@ -112,7 +115,6 @@ export const deleteReport = async (
       return;
     }
 
-    // Check if the report belongs to the authenticated user
     if (report.user_id.toString() !== req.user.id.toString()) {
       res
         .status(403)
@@ -128,6 +130,7 @@ export const deleteReport = async (
   }
 };
 
+// Експорт звіту у CSV
 export const exportReportToCSV = async (
   req: AuthRequest,
   res: Response,
@@ -142,25 +145,13 @@ export const exportReportToCSV = async (
 
   try {
     const report = await Report.findById(id);
-    // .populate({
-    //   path: "user_id",
-    //   select: "username email",
-    // });
 
     if (!report) {
       res.status(404).json({ message: "Report not found" });
       return;
     }
 
-    // Check if the report belongs to the authenticated user
-    if (report.user_id._id.toString() !== req.user.id.toString()) {
-      res
-        .status(403)
-        .json({ message: "Forbidden: You cannot access this report" });
-      return;
-    }
-
-    // Prepare data for CSV
+    // Підготовка даних для CSV
     const fields = [
       "train.number",
       "station.name",
@@ -174,7 +165,7 @@ export const exportReportToCSV = async (
     const parser = new Parser(opts);
     const csv = parser.parse(report.data);
 
-    // Set the response headers to prompt a file download
+    // Встановлення заголовків відповіді для завантаження файлу
     res.header("Content-Type", "text/csv");
     res.attachment(`report_${report._id}.csv`);
     res.send(csv);

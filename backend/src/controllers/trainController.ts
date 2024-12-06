@@ -5,6 +5,7 @@ import Train from "../models/Train";
 import { AuthRequest } from "../middleware/auth";
 import axios, { isAxiosError } from "axios";
 
+// Отримання всіх поїздів
 export const getTrains = async (
   req: Request,
   res: Response,
@@ -15,7 +16,7 @@ export const getTrains = async (
     const transformedTrains = trains.map((train) => ({
       ...train,
       id: train._id,
-      _id: undefined, // Удаляем поле _id
+      _id: undefined, // Удаляємо поле _id
     }));
     res.json(transformedTrains);
   } catch (error) {
@@ -23,6 +24,7 @@ export const getTrains = async (
   }
 };
 
+// Створення нового поїзда
 export const createTrain = async (
   req: AuthRequest,
   res: Response,
@@ -58,6 +60,7 @@ export const createTrain = async (
   }
 };
 
+// Оновлення інформації про поїзд
 export const updateTrain = async (
   req: AuthRequest,
   res: Response,
@@ -73,7 +76,6 @@ export const updateTrain = async (
     res.status(400).json({ errors: errors.array() });
     return;
   }
-  console.log(1);
 
   const { id } = req.params;
   const { number, route } = req.body;
@@ -96,6 +98,7 @@ export const updateTrain = async (
   }
 };
 
+// Видалення поїзда
 export const deleteTrain = async (
   req: AuthRequest,
   res: Response,

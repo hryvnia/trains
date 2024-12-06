@@ -1,6 +1,6 @@
 import { Button, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import axios from "axios";
+
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -27,15 +27,13 @@ export const LoginForm = () => {
           if (result?.error) {
             notifications.show({
               color: "red",
-              title: "Помилка",
+              title: "Помилка авторизації",
               message: result.error,
             });
           }
         } catch (err) {
           alert("unknown error");
         }
-
-        //
       })}
     >
       <Stack>

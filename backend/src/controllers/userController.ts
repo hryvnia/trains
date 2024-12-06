@@ -2,8 +2,9 @@ import express, { Request, Response, NextFunction } from "express";
 import { check, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User"; // убедитесь, что путь правильный
+import User from "../models/User";
 
+// Реєстрація нового користувача
 export const register = async (
   req: Request,
   res: Response,
@@ -42,11 +43,11 @@ export const register = async (
       user: { id: user._id, username: user.username, email: user.email },
     });
   } catch (error) {
-    next(error); // Передаем ошибку дальше
+    next(error); // Передаємо помилку далі
   }
 };
 
-// Контроллер для логина
+// Контролер для логіну
 export const login = async (
   req: Request,
   res: Response,
@@ -78,7 +79,7 @@ export const login = async (
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: "1h",
+      expiresIn: "6h",
     });
 
     res.json({
@@ -86,6 +87,6 @@ export const login = async (
       user: { id: user._id, username: user.username, email: user.email },
     });
   } catch (error) {
-    next(error); // Передаем ошибку дальше
+    next(error);
   }
 };

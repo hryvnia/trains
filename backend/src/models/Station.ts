@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Схема для станції
 const stationSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -7,6 +8,7 @@ const stationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Перетворення об'єкта перед відправкою у JSON
 stationSchema.set("toJSON", {
   transform: (doc, ret) => {
     ret.id = ret._id.toString();
@@ -16,5 +18,6 @@ stationSchema.set("toJSON", {
   },
 });
 
+// Створення моделі станції на основі її схеми
 const Station = mongoose.model("Station", stationSchema);
 export default Station;

@@ -30,62 +30,49 @@ import classes from "./NavbarSearch.module.css";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const links = [
   {
     icon: IconReportAnalytics,
     label: "Огляд",
-    //notifications: 3,
+
     href: "/",
   },
-  // { icon: IconTrack, label: "Станції", notifications: 1 },
+
   { icon: IconTrain, label: "Потяги", href: "/trains" },
   {
     icon: IconCalendarClock,
     label: "Розклад",
-    //notifications: 4,
+
     href: "/schedules",
   },
   {
     icon: IconPacman,
     label: "Розробник",
-    //notifications: 4,
+
     href: "/author",
   },
 ];
 
 const collections = [
-  // { emoji: "🚚", label: "Deliveries" },
-  // { emoji: "💸", label: "Discounts" },
-  // { emoji: "💰", label: "Profits" },
   { emoji: "✨", label: "Усі ", href: "/reports?all=true" },
   { emoji: "💁‍♀️", label: "Мої звіти", href: "/reports" },
-  // { emoji: "", label: "Customers" },
-  // { emoji: "🛒", label: "Orders" },
-  // { emoji: "📅", label: "Events" },
-  // { emoji: "🙈", label: "Debts" },
 ];
 
 export function NavbarSearch() {
   const router = useRouter();
 
   const mainLinks = links.map((link) => (
-    <Link
-      key={link.label}
-      className={classes.mainLink}
-      href={link.href}
-      //onClick={() => router.push(link.href)}
-    >
+    <Link key={link.label} className={classes.mainLink} href={link.href}>
       <div className={classes.mainLinkInner}>
         <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
         <span>{link.label}</span>
       </div>
-      {link.notifications && (
+      {/* {link.notifications && (
         <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
           {link.notifications}
         </Badge>
-      )}
+      )} */}
     </Link>
   ));
 

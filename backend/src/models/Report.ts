@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
+// Схема звіту
 const reportSchema = new mongoose.Schema(
   {
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", // Зв'язок з моделлю User
       required: true,
     },
     startDate: { type: Date, required: true },
@@ -15,6 +16,7 @@ const reportSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Віртуальне поле для зв'язку з User, що створив звіт
 reportSchema.virtual("user", {
   ref: "User",
   localField: "user_id",
@@ -22,8 +24,9 @@ reportSchema.virtual("user", {
   justOne: true,
 });
 
+// Налаштування перетворення об'єкта перед відправкою у JSON
 reportSchema.set("toJSON", {
-  virtuals: true,
+  virtuals: true, // Включення віртуальних
   transform: (doc, ret) => {
     ret.id = ret._id.toString();
     delete ret._id;
@@ -32,5 +35,6 @@ reportSchema.set("toJSON", {
   },
 });
 
+// Створення моделі звіта на основі її схеми
 const Report = mongoose.model("Report", reportSchema);
 export default Report;

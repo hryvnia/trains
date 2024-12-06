@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
 
+// Схема для розкладу
 const scheduleSchema = new mongoose.Schema({
   train_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Train",
+    ref: "Train", // Зв'язок з моделлю Train
     required: true,
   },
   station_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Station",
+    ref: "Station", // Зв'язок з моделлю Station
     required: true,
   },
   arrivalTime: { type: Date, required: false },
@@ -20,7 +21,9 @@ const scheduleSchema = new mongoose.Schema({
   },
 });
 
+// Валідація перед збереженням розкладу
 scheduleSchema.pre("validate", function (next) {
+  // Перевірка наявності хоча б одного з полів arrivalTime або departureTime
   if (!this.arrivalTime && !this.departureTime) {
     next(
       new Error("Either 'arrivalTime' or 'departureTime' must be provided.")
@@ -30,7 +33,7 @@ scheduleSchema.pre("validate", function (next) {
   }
 });
 
-// Віртуальне поле для train
+// Віртуальне поле для зв'язку з потягом
 scheduleSchema.virtual("train", {
   ref: "Train",
   localField: "train_id",
@@ -38,7 +41,7 @@ scheduleSchema.virtual("train", {
   justOne: true,
 });
 
-// Віртуальне поле для station
+// Віртуальне поле для зв'язку зі станцією
 scheduleSchema.virtual("station", {
   ref: "Station",
   localField: "station_id",
@@ -46,7 +49,7 @@ scheduleSchema.virtual("station", {
   justOne: true,
 });
 
-// Налаштування toJSON для включення віртуальних полів
+// Налаштування перетворення об'єкта перед відправкою у JSON
 scheduleSchema.set("toJSON", {
   virtuals: true,
   transform: (doc, ret) => {
@@ -57,5 +60,6 @@ scheduleSchema.set("toJSON", {
   },
 });
 
+// Створення моделі розкладу на основі її схеми
 const Schedule = mongoose.model("Schedule", scheduleSchema);
 export default Schedule;

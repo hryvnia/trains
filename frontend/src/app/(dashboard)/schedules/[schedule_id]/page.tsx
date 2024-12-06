@@ -24,6 +24,7 @@ import { useEffect } from "react";
 
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 export default function Page({ params }: { params: { schedule_id: string } }) {
   const router = useRouter();
@@ -74,11 +75,16 @@ export default function Page({ params }: { params: { schedule_id: string } }) {
             component="form"
             onSubmit={handleSubmit(async (data) => {
               try {
-                if (creating) {
-                  await createSchedule(data).unwrap();
-                } else {
-                  await updateSchedule(data).unwrap();
-                }
+                const schedule = creating
+                  ? await createSchedule(data).unwrap()
+                  : await updateSchedule(data).unwrap();
+
+                notifications.show({
+                  color: "green",
+                  title: `${creating ? "Створення" : "Редагування"} розкладу`,
+                  message: `Дані збережено успішно`,
+                });
+
                 router.push(`/schedules`);
               } catch (err) {}
             })}

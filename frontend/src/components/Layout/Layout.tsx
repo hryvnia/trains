@@ -51,37 +51,6 @@ export const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
             <IconTrack size={32} />
             <Title size="md">Kharkiv</Title>
           </Group>
-
-          {/* <Link href={"/"}>Main</Link>
-
-          <Link href={"/trains"}>Потяги</Link>
-          <Link href={"/schedules"}>Розклад</Link>
-
-          {session.data?.user ? (
-            <Group>
-              <Avatar component={Link} href="/me" />
-              <Stack align="start" gap={0}>
-                <Text span size="sm" fw={600}>
-                  {session.data.user.username}
-                </Text>
-                <Button
-                  size="compact-xs"
-                  variant="transparent"
-                  p={0}
-                  h={16}
-                  onClick={() => signOut()}
-                >
-                  log out
-                </Button>
-              </Stack>
-            </Group>
-          ) : (
-            <Group>
-              <Button component={Link} href="/auth">
-                Auth
-              </Button>
-            </Group>
-          )} */}
         </Group>
       </AppShell.Header>
 

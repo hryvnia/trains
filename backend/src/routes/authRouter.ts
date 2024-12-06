@@ -5,11 +5,12 @@ import { authMiddleware, AuthRequest } from "../middleware/auth";
 
 const router = express.Router();
 
+// Маршрут для реєстрації нового користувача
 router.post(
   "/register",
   [
     check("email", "Please include a valid email").isEmail(),
-    check("username", "Please include a valid email").exists(),
+    check("username", "Please include a valid username").exists(),
     check("password", "Password must be 6 or more characters").isLength({
       min: 6,
     }),
@@ -17,23 +18,14 @@ router.post(
   register
 );
 
+// Маршрут для логіну користувача
 router.post(
   "/login",
   [
-    check("username", "Please include a valid email").exists(),
+    check("username", "Please include a valid username").exists(),
     check("password", "Password is required").exists(),
   ],
   login
 );
-
-router.get("/protected", authMiddleware, (req: AuthRequest, res: Response) => {
-  if (req.user) {
-    res.json({ message: "This is a protected route", userId: req.user.id });
-
-    //
-  } else {
-    res.status(401).json({ message: "No user found in token" });
-  }
-});
 
 export default router;

@@ -12,8 +12,6 @@ import "dayjs/locale/uk";
 
 import "./globals.css";
 
-import { Layout } from "@/components";
-
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
   variable: "--font-montserrat",

@@ -1,13 +1,8 @@
 "use client";
 
-import Image from "next/image";
-
-import { useForm } from "react-hook-form";
 import {
   ActionIcon,
   Box,
-  Button,
-  Card,
   Center,
   Container,
   Group,
@@ -15,44 +10,26 @@ import {
   Table,
 } from "@mantine/core";
 
-import { signIn, signOut, useSession } from "next-auth/react";
 import { api, apiClient } from "@/lib";
 import dayjs from "dayjs";
 import { IconDownload, IconTrash } from "@tabler/icons-react";
-import { useParams, useSearchParams } from "next/navigation";
-import { notifications } from "@mantine/notifications";
 
-export default function Home() {
-  //   const { data, isFetching } = api.useGetSchedulesStatsQuery({
-  //     date: "2024-12-02",
-  //   });
+export default function Home({
+  searchParams,
+}: {
+  searchParams: { all?: string };
+}) {
+  const { all } = searchParams;
 
-  const { data: session } = useSession();
-
-  const searchParams = useSearchParams();
-
+  console.log("params > ", searchParams);
   const { data: reports, isFetching } = api.useGetReportsQuery({
-    all: Boolean(searchParams.get("all")),
+    all: all === "true",
   });
   const [deleteReport, deleteReportRes] = api.useDeleteReportMutation();
 
   return (
     <Box mih="100vh">
       <Container>
-        {/* <Group mt="md">
-          <ActionIcon
-            onClick={async () => {
-              console.log("session > ", session);
-
-              try {
-                const res = await apiClient.get("/api/auth/protected");
-              } catch (err) {}
-            }}
-          >
-            test
-          </ActionIcon>
-        </Group> */}
-
         {isFetching ? (
           <Center>
             <Loader />

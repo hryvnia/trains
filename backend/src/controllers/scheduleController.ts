@@ -105,6 +105,20 @@ export const updateSchedule = async (
     delay_minutes,
   } = req.body;
 
+  if (!train_id || !station_id || !platform) {
+    res.status(400).json({
+      message: "Missing required fields: train_id, station_id, or platform",
+    });
+    return;
+  }
+
+  if (!arrivalTime && !departureTime) {
+    res.status(400).json({
+      message: "Either 'arrivalTime' or 'departureTime' must be provided",
+    });
+    return;
+  }
+
   try {
     const schedule = await Schedule.findById(id);
     if (!schedule) {

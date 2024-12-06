@@ -11,6 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
+import { notifications } from "@mantine/notifications";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -28,7 +29,12 @@ export default function Page() {
           component="form"
           onSubmit={handleSubmit(async (data) => {
             try {
-              await generateReport(data);
+              await generateReport(data).unwrap();
+              notifications.show({
+                color: "green",
+                title: "Успіх",
+                message: "Звіт згенеровано",
+              });
               router.push("/reports");
             } catch (err) {}
           })}
