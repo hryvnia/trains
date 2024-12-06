@@ -13,8 +13,6 @@ dayjs.extend(timezone);
 
 const tz = "Europe/Kyiv";
 
-// Конвертація дати у потрібну таймзону
-
 export const getSchedules = async (
   req: Request,
   res: Response,
@@ -22,8 +20,8 @@ export const getSchedules = async (
 ): Promise<void> => {
   try {
     const schedules = await Schedule.find({})
-      .populate("train") // Динамически добавляем объект train
-      .populate("station"); // Динамически добавляем объект station
+      .populate("train")
+      .populate("station");
 
     res.json(schedules);
   } catch (error) {
@@ -184,8 +182,6 @@ export const getScheduleStats = async (
 ): Promise<void> => {
   try {
     const { date } = req.params;
-
-    const tz = "Europe/Kyiv";
 
     const startDate = dayjs.tz(date, tz).startOf("day").toDate();
     const endDate = dayjs.tz(date, tz).endOf("day").toDate();

@@ -60,8 +60,16 @@ export const CreateModal: FC<
         })}
       >
         <Stack>
-          <TextInput label="Номер" {...register("number")} />
-          <TextInput label="Сполучення" {...register("route")} />
+          <TextInput
+            label="Номер"
+            {...register("number", { required: true })}
+            placeholder="123"
+          />
+          <TextInput
+            label="Сполучення"
+            {...register("route", { required: true })}
+            placeholder="Харків-Пас - Київ-Пас"
+          />
           <Button type="submit" loading={formState.isSubmitting} fullWidth>
             {creating ? "Створити" : "Зберегти зміни"}
           </Button>

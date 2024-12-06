@@ -20,6 +20,7 @@
     "axios": "^1.7.7",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
+    "lodash": "^4.17.21",
     "next": "14.2.13",
     "next-auth": "^4.24.8",
     "react": "^18",
@@ -30,6 +31,7 @@
     "sass": "^1.79.3"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

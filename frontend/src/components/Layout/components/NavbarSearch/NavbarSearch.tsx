@@ -5,6 +5,8 @@ import {
   IconCheckbox,
   IconHome,
   IconLogout,
+  IconMan,
+  IconPacman,
   IconPlus,
   IconReportAnalytics,
   IconSearch,
@@ -34,7 +36,7 @@ const links = [
   {
     icon: IconReportAnalytics,
     label: "Огляд",
-    notifications: 3,
+    //notifications: 3,
     href: "/",
   },
   // { icon: IconTrack, label: "Станції", notifications: 1 },
@@ -42,8 +44,14 @@ const links = [
   {
     icon: IconCalendarClock,
     label: "Розклад",
-    notifications: 4,
+    //notifications: 4,
     href: "/schedules",
+  },
+  {
+    icon: IconPacman,
+    label: "Розробник",
+    //notifications: 4,
+    href: "/author",
   },
 ];
 

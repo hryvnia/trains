@@ -10,7 +10,7 @@ const reportSchema = new mongoose.Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     generatedAt: { type: Date, default: Date.now },
-    data: [{ type: mongoose.Schema.Types.Mixed, required: true }], // Store schedule data
+    data: [{ type: mongoose.Schema.Types.Mixed, required: true }],
   },
   { timestamps: true }
 );

@@ -3,7 +3,7 @@ import { MantineProvider, createTheme } from "@mantine/core";
 import { FC, ReactNode } from "react";
 import "dayjs/locale/uk";
 import { DatesProvider } from "@mantine/dates";
-
+import { Notifications } from "@mantine/notifications";
 const theme = createTheme({});
 
 export const ThemeProvider: FC<{
@@ -13,7 +13,7 @@ export const ThemeProvider: FC<{
     <MantineProvider theme={theme} defaultColorScheme="light">
       <DatesProvider settings={{ locale: "uk", timezone: "Europe/Kyiv" }}>
         {children}
-        {/* <Notifications position="bottom-center" containerWidth={410} /> */}
+        <Notifications position="bottom-center" containerWidth={410} />
       </DatesProvider>
     </MantineProvider>
   );

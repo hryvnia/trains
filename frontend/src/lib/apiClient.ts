@@ -1,5 +1,8 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import { notifications } from "@mantine/notifications";
+import axios, { InternalAxiosRequestConfig, isAxiosError } from "axios";
 import { getSession } from "next-auth/react";
+
+import get from "lodash/get";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -27,6 +30,15 @@ instance.interceptors.response.use(
   },
   (error) => {
     console.log(`api error > `, error);
+
+    if (isAxiosError(error)) {
+      notifications.show({
+        color: "red",
+        title: error.code,
+        message: get(error, "response.data.message") || "",
+      });
+    }
+
     throw error;
   }
 );

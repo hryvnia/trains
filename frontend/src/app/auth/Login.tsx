@@ -1,4 +1,5 @@
 import { Button, PasswordInput, Stack, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -24,7 +25,11 @@ export const LoginForm = () => {
             router.push("/");
           }
           if (result?.error) {
-            alert(result.error);
+            notifications.show({
+              color: "red",
+              title: "Помилка",
+              message: result.error,
+            });
           }
         } catch (err) {
           alert("unknown error");

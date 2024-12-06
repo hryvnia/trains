@@ -20,6 +20,7 @@ import { api, apiClient } from "@/lib";
 import dayjs from "dayjs";
 import { IconDownload, IconTrash } from "@tabler/icons-react";
 import { useParams, useSearchParams } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 export default function Home() {
   //   const { data, isFetching } = api.useGetSchedulesStatsQuery({
@@ -103,7 +104,8 @@ export default function Home() {
                                 document.body.appendChild(link);
                                 link.click();
                                 link.parentNode?.removeChild(link);
-                              });
+                              })
+                              .catch(() => {});
                           }}
                         >
                           <IconDownload />

@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Stack,
   TextInput,
+  Title,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import dayjs from "dayjs";
@@ -33,6 +34,7 @@ export default function Page() {
           })}
         >
           <Stack>
+            <Title order={2}>Генерація звіту</Title>
             <SimpleGrid cols={2}>
               <Controller
                 control={control}
@@ -61,7 +63,7 @@ export default function Page() {
                 )}
               />
             </SimpleGrid>
-            <TextInput label="Назва звіту" {...register("name")} />
+            {/* <TextInput label="Назва звіту" {...register("name")} /> */}
             <Button
               type="submit"
               variant="filled"

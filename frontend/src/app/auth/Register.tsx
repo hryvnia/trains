@@ -33,7 +33,7 @@ export const RegisterForm = () => {
             router.push("/");
           }
           if (result?.error) {
-            alert(result.error);
+            //alert(result.error);
           }
         } catch (err) {
           console.log(err);
